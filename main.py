@@ -14,6 +14,7 @@ GPIO.setup(8, GPIO.IN)
 import os
 import pyrebase
 import config
+import json
 
 camera = PiCamera()
 camera.rotation = 90
@@ -34,6 +35,17 @@ storage = firebase.storage()
 #url=storage.child('yoyo.jpg').get_url(None)
 #print(url)
 
+post_url = "http://somchai09.trueddns.com:43322/carentry"
+headers={'Content-type':"application/json"}
+
+payload={"entry_picture":url,
+"building":"Rutsart",
+"floor":4,
+"parking_platenum":"กก1234",
+"parking_platecity":"กรุงเทพมหานคร",
+"entry_date":"01-01-2021",
+"entry_time":"10:30:02"}
+
 
 while(True):
     
@@ -50,22 +62,19 @@ while(True):
         x = datetime.datetime.now()
         picture = "/home/pi/Desktop/thaiAPI/images/license"+str(x)+".jpeg"
         print('smile!')
-        camera.start_preview()
-        sleep(5)
+        #camera.start_preview()
+        #sleep(5)
         camera.capture(picture, quality=30) #quality range 0-100
-        camera.stop_preview()
+        #camera.stop_preview()
         allpicslist.append(str(x))
         #print(allpicslist)
         
-        #url = "https://api.aiforthai.in.th/lpr-v2"
+        
         url = "https://api.aiforthai.in.th/panyapradit-lpr"
-        #payload = {'crop': '1', 'rotate': '1'}
         files = {'file': open(picture, 'rb')}
         headers = {
             'Apikey': "9fyO2hLVgXRem15kSZ86XVOC2fgJwcqR",
         }
-        
-       
 
         response = requests.post(url, files=files, headers=headers)
         if response.status_code == 204:
@@ -79,6 +88,7 @@ while(True):
             r_digit = data['r_digit'].lstrip("0")
             r_province = data['r_province']
             print(r_char,r_digit,r_province)
+            plate_num = r_char+r_digit
             
             #upload picture to firebase
             path_firebase = "/images/"+"license"+str(x)+".jpeg"
@@ -87,6 +97,20 @@ while(True):
             #get the url
             url=storage.child(path_firebase).get_url(None)
             print("access picture: "+url)
+            
+            #format day month year hour minutes and seconds
+            d_m_y = str(x.day)+"-"+str(x.month)+"-"+str(x.year)
+            h_m_s = x.strftime("%X")
+            
+            #change payload value
+            payload["parking_platenum"]= plate_num
+            payload["parking_platecity"] = r_province
+            payload["entry_date"] = d_m_y
+            payload["entry_time"] = h_m_s
+            
+            payload_json = json.dumps(payload)
+            response_database = requests.post(post_url,data=payload_json,headers=headers)
+            print(response_database.json())
             time.sleep(10)
             
         except:#license plate is not recognizable
