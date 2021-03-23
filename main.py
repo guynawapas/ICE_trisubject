@@ -36,20 +36,19 @@ storage = firebase.storage()
 #print(url)
 
 post_url = "http://somchai09.trueddns.com:43322/carentry"
-headers={'Content-type':"application/json"}
+db_headers={'Content-type':"application/json"}
 
-payload={"entry_picture":url,
-"building":"Rutsart",
+payload={"entry_picture":"",
+"building":"",
 "floor":4,
-"parking_platenum":"กก1234",
-"parking_platecity":"กรุงเทพมหานคร",
-"entry_date":"01-01-2021",
-"entry_time":"10:30:02"}
+"parking_platenum":"",
+"parking_platecity":"",
+"entry_date":"0",
+"entry_time":""}
 
 
 while(True):
     
-    #value = input("Enter 'c' to take a picture, Type \"stop\" to exit:\n")
     value = ""
     i=GPIO.input(8)
     if i==1:               #When output from motion sensor is HIGH
@@ -109,7 +108,7 @@ while(True):
             payload["entry_time"] = h_m_s
             
             payload_json = json.dumps(payload)
-            response_database = requests.post(post_url,data=payload_json,headers=headers)
+            response_database = requests.post(post_url,data=payload_json,headers=db_headers)
             print(response_database.json())
             time.sleep(10)
             
