@@ -94,14 +94,15 @@ while(True):
             storage.child(path_firebase).put(picture)
             
             #get the url
-            url=storage.child(path_firebase).get_url(None)
-            print("access picture: "+url)
+            file_url=storage.child(path_firebase).get_url(None)
+            print("access picture: "+file_url)
             
             #format day month year hour minutes and seconds
             d_m_y = str(x.day)+"-"+str(x.month)+"-"+str(x.year)
             h_m_s = x.strftime("%X")
             
             #change payload value
+            payload["url"] = file_url
             payload["parking_platenum"]= plate_num
             payload["parking_platecity"] = r_province
             payload["entry_date"] = d_m_y
