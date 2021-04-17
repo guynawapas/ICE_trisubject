@@ -18,7 +18,7 @@ import json
 
 
 #camera config
-CAMERA_FLOOR = '1'
+CAMERA_FLOOR = '2A'
 CAMERA_LOCATION = 'Political Science'
 
 
@@ -29,22 +29,14 @@ picture = ""
 
 firebase = pyrebase.initialize_app(config.firebaseConfig)
 storage = firebase.storage()
-#upload
-#storage.child("yoyo.jpg").put("test1.jpg")
 
-#Download
-#storage.child("yoyo.jpg").download(filename="Download_name.jpg",path=os.path.basename(""))
-
-#url=storage.child('yoyo.jpg').get_url(None)
-#print(url)
-server = {'post_url': "http://somchai09.trueddns.com:43322/carentry",
+server = {'post_url': "http://somchai09.trueddns.com:43322/updatecarfloor",
           'db_headers' : {'Content-type':"application/json"},
-          'payload' : {"entry_picture":"",
-                        "building":CAMERA_LOCATION,
+          'payload' : { "building":CAMERA_LOCATION,
                         "floor":CAMERA_FLOOR,
                         "parking_platenum":"",
                         "parking_platecity":"",
-                        "entry_datetime":"",
+                        "update_datetime":"",
                         }
 }
 
@@ -81,26 +73,13 @@ def capture():
         r_province = data['r_province']
         print(r_char,r_digit,r_province)
         plate_num = r_char+r_digit
-        
-        
-        
-        #upload picture to firebase
-        path_firebase = "/images/"+"license"+str(x)+".jpeg"
-        storage.child(path_firebase).put(picture)
-        
-        #get the url
-        pic_url=storage.child(path_firebase).get_url(None)
-        print("access picture: "+pic_url)
-        
-        #format day month year hour minutes and seconds
-        #d_m_y = str(x.day)+"-"+str(x.month)+"-"+str(x.year)
-        #h_m_s = x.strftime("%X")
+ 
         
         #change payload value
-        server['payload']['entry_picture'] = pic_url
+     
         server['payload']["parking_platenum"]= plate_num
         server['payload']["parking_platecity"] = r_province
-        server['payload']["entry_datetime"] = str(x.strftime("%Y-%m-%d %H:%M:%S"))
+        server['payload']["update_datetime"] = str(x.strftime("%Y-%m-%d %H:%M:%S"))
         #server['payload']["entry_date"] = d_m_y
         #server['payload']["entry_time"] = h_m_s
         
@@ -130,6 +109,7 @@ while(True):
     else:#detect no motion
         print("No car detected")
         time.sleep(2)
+
 
 
 
