@@ -96,7 +96,7 @@ body{
     display: flex;
     justify-content: left;
     position:relative;
-    left:40%;
+    left:30%;
     width:100%;
 }
 
@@ -104,18 +104,24 @@ body{
 #spaceContainer{
     display: flex;
     justify-content: center;
+    position:relative;
+    left:10%;
     width:100%;
 }
-#floor{
+#floor,#spaces{
     font-weight: bold;
     text-align: left;
     font-size: 3rem;
     margin: 20px 15% 20px 0px;
+    position:relative;
+    top:-10px;
    
 }
-#spaces{
+/* #spaces{
     font-weight: bold;
     text-align: left;
     font-size: 3rem;
     margin: 20px 15% 20px 0px;
-}
+    position:relative;
+    top:-10px;
+} */
