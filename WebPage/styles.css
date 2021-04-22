@@ -44,10 +44,10 @@ body{
     
 }
 #column1,#column3,#column5{
-    background-color: burlywood;
+    background-color: lightblue;
 }
 #column2,#column4,#column6{
-    background-color: rgb(233, 219, 190);
+    background-color: lightgrey;
 }
 
 #data{

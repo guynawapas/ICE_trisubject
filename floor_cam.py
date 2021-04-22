@@ -23,7 +23,7 @@ CAMERA_LOCATION = 'Political Science'
 
 
 camera = PiCamera()
-camera.rotation = 90
+camera.rotation = 270
 
 picture = ""
 
@@ -45,10 +45,12 @@ def capture():
     picture = "/home/pi/Desktop/thaiAPI/images/license"+str(x)+".jpeg"
     print('capturing')
     
+    
     camera.capture(picture, quality=30) #quality range 0-100
     
+    
     #test picture
-    picture = "/home/pi/Desktop/thaiAPI/images/license2021-02-20 17:54:03.203731.jpeg"
+    #picture = "/home/pi/Desktop/thaiAPI/images/license2021-02-20 17:54:03.203731.jpeg"
     
     
     #license plate recognition API

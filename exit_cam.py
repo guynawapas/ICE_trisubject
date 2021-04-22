@@ -23,7 +23,7 @@ CAMERA_LOCATION = 'Political Science'
 
 
 camera = PiCamera()
-camera.rotation = 90
+camera.rotation = 270
 
 picture = ""
 
@@ -44,10 +44,13 @@ def capture():
     picture = "/home/pi/Desktop/thaiAPI/images/license"+str(x)+".jpeg"
     print('capturing')
     
+    camera.start_preview()
+    sleep(3)
     camera.capture(picture, quality=30) #quality range 0-100
+    camera.stop_preview()  
     
     #test picture
-    picture = "/home/pi/Desktop/thaiAPI/images/license2021-02-20 17:54:03.203731.jpeg"
+    #picture = "/home/pi/Desktop/thaiAPI/images/license2021-02-20 17:54:03.203731.jpeg"
     
     
     #license plate recognition API
@@ -97,7 +100,7 @@ def capture():
         print(payload_json)
         response_database = requests.post(server['post_url'],data=payload_json,headers=server['db_headers'])
         print(response_database.json())
-        time.sleep(10)
+        time.sleep(8)
         
     except:#license plate is not recognizable
         print("can't recognize license plate")
