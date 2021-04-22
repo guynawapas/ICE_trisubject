@@ -68,7 +68,9 @@ def capture():
     try:#license plate is recognized
         data = response.json()
         #print(data)
-        r_char = data['r_char'][1:]
+        r_char = data['r_char']
+        if r_char[0] == '/':
+            r_char = r_char[1:]
         r_digit = data['r_digit'].lstrip("0")
         r_province = data['r_province']
         print(r_char,r_digit,r_province)
