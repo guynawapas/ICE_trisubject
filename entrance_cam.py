@@ -60,7 +60,7 @@ def capture():
     camera.capture(picture, quality=30) #quality range 0-100
     camera.stop_preview()    
     #test picture
-    picture = "/home/pi/Desktop/thaiAPI/images/license2021-02-20 17:54:03.203731.jpeg"
+    #picture = "/home/pi/Desktop/thaiAPI/images/license2021-02-20 17:54:03.203731.jpeg"
     
     
     #license plate recognition API
