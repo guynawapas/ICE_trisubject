@@ -8,6 +8,6 @@ const amount = urlParams.get('amount');
 const div_amount = document.getElementById('amount');
 var img = document.createElement("p");
 img.setAttribute("id","data");
-img.innerHTML = amount;
+img.innerHTML = 'Fee:'+amount;
 div_amount.appendChild(img);
 
