@@ -1,5 +1,19 @@
-#welcome{
+#greeting{
     text-align: center;
     font-size: 9rem;
     font-weight: bold;
+    margin:auto;
+}
+#amount{
+    text-align: center;
+    font-size: 9rem;
+    font-weight: bold;
+    margin:auto;
+}
+#data{
+    margin:auto;
+    text-align: center;
+    font-size: 13rem;
+    font-weight: bold;
+    margin:0px;
 }

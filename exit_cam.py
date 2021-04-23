@@ -1,7 +1,7 @@
 import numpy as np
 import json
 import requests
-
+#camera imports
 from picamera import PiCamera
 from time import sleep
 import datetime
@@ -10,11 +10,15 @@ import time
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(8, GPIO.IN)
-
+#firebase imports
 import os
 import pyrebase
 import config
 import json
+
+#web imports
+import subprocess
+import webbrowser
 
 
 #camera config
@@ -50,7 +54,7 @@ def capture():
     camera.stop_preview()  
     
     #test picture
-    #picture = "/home/pi/Desktop/thaiAPI/images/license2021-02-20 17:54:03.203731.jpeg"
+    picture = "/home/pi/Desktop/thaiAPI/images/license2021-02-20 17:54:03.203731.jpeg"
     
     
     #license plate recognition API
@@ -99,10 +103,25 @@ def capture():
         payload_json = json.dumps(server['payload'])
         print(payload_json)
         response_database = requests.post(server['post_url'],data=payload_json,headers=server['db_headers'])
+        try:
+            pay_amount = response_database.json()['Amount']
+        except Exception as e:
+            print(e)
+            pay_amount='error'
         print(response_database.json())
-        time.sleep(8)
+
+
+        #open web
+        url_param="file:///home/pi/Desktop/thaiAPI/webpage/thankyou.html?amount="
         
-    except:#license plate is not recognizable
+
+        webbrowser.open(url_param+str(pay_amount))
+        time.sleep(8)
+        subprocess.call(['xdotool','key','ctrl+w'])
+        
+        
+    except Exception as e:#license plate is not recognizable
+        print(e)
         print("can't recognize license plate")
         #capture()
 

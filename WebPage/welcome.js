@@ -10,3 +10,4 @@ var img = document.createElement("img");
 img.setAttribute("id","data");
 img.setAttribute("src",image_url);
 div_image.appendChild(img);
+
