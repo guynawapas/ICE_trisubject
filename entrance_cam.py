@@ -1,7 +1,7 @@
 import numpy as np
 import json
 import requests
-
+#pi and camera imports
 from picamera import PiCamera
 from time import sleep
 import datetime
@@ -10,12 +10,14 @@ import time
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(8, GPIO.IN)
-
+#firebase imports
 import os
 import pyrebase
 import config
 import json
-
+#web imports
+import subprocess
+import webbrowser
 
 #camera config
 CAMERA_FLOOR = '1'
@@ -112,7 +114,15 @@ def capture():
         print(payload_json)
         response_database = requests.post(server['post_url'],data=payload_json,headers=server['db_headers'])
         print(response_database.json())
+
+        #open web
+        url_param="file:///home/pi/Desktop/thaiAPI/webpage/welcome.html?img="
+        
+
+        webbrowser.open(url_param+picture)
         time.sleep(8)
+        subprocess.call(['xdotool','key','ctrl+w'])
+       
         
     except:#license plate is not recognizable
         print("can't recognize license plate")
